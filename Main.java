@@ -1,19 +1,20 @@
-import java.util.*;
+// import java.util.*;
 
 
 public class Main{
 
 
 
-private Output output = new Output();    
+
+Output output = new Output();    
 
     //A Test to check if the File I/O is running properly
     public static void main(String[] args){ 
-        System.out.print("Enter the Name of a Txt File (include .txt): ");
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
-        new Output().fileReader(input);
-        scanner.close();
-    }
+    String file1 = "Current_User_Accounts_File.txt";
+    String file2 = "Available_Tickets_File.txt";
+    String file3 = "Daily_Transaction_File.txt";
+    
+        new Output().fileReader(file1, file2, file3);
+    }     
 
 }
