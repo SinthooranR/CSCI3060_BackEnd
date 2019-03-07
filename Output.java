@@ -30,45 +30,99 @@ List<String> tickets_file = new ArrayList<String>();
         //File Readers for each file respectively
         //FileReader for userFile
         File file = new File(userFile);
-        FileReader fReader = new FileReader(file);
-        BufferedReader bReader = new BufferedReader(fReader);
+        FileReader fileReader = new FileReader(file);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
         //FileReader for ticketsFile
         File file2 = new File(ticketsFile);
-        FileReader fReader2 = new FileReader(file2);
-        BufferedReader bReader2 = new BufferedReader(fReader2);
+        FileReader fileReader2 = new FileReader(file2);
+        BufferedReader bufferedReader2 = new BufferedReader(fileReader2);
         //FileReader for dailyTransactionFile
         File file3 = new File(dailyTransactionFile);
-        FileReader fReader3 = new FileReader(file3);
-        BufferedReader bReader3 = new BufferedReader(fReader3);
+        FileReader fileReader3 = new FileReader(file3);
+        BufferedReader bufferedReader3 = new BufferedReader(fileReader3);
        
         //Reads Current_User_Accounts_File
-        while ((line = bReader.readLine()) != null){
+        while ((line = bufferedReader.readLine()) != null){
             //Has the substrings for Users
             String usernames = line.substring(0,15); 
             user_file.add(line);
             System.out.println(line);
         } 
-        bReader.close();
+        bufferedReader.close();
 
         //Reads Available_Tickets_File
-        while ((line = bReader2.readLine()) != null){
+        while ((line = bufferedReader2.readLine()) != null){
             //Has the substrings for Event names 
             String eventnames = line.substring(0,25); 
             tickets_file.add(line);
             System.out.println(line);
         }
-        bReader2.close();
+        bufferedReader2.close();
 
         //Reads Merged Daily Transaction File
-        while ((line = bReader3.readLine()) != null){
+        while ((line = bufferedReader3.readLine()) != null){
             //Still Needs Work
             daily_trans.add(line);
             System.out.println(line);
         }
-        bReader3.close();
+        bufferedReader3.close();
+       
     }
     catch(Exception e){
         }
+    }
+
+
+
+    public void fileWriter(String userFile, String ticketsFile, String dailyTransactionFile){
+        try{
+        File file = new File("New_User_Accounts_File.txt");
+        FileWriter fileWriter = new FileWriter(file);
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+        File file2 = new File("New_Avaiable_Tickets_File.txt");
+        FileWriter fileWriter2 = new FileWriter(file2);
+        BufferedWriter bufferedWriter2 = new BufferedWriter(fileWriter2);
+
+        File file3 = new File("New_Daily_Transaction_File");
+        FileWriter fileWriter3 = new FileWriter(file3);
+        BufferedWriter bufferedWriter3 = new BufferedWriter(fileWriter3);
+
+            if(!file.exists()){
+                file.createNewFile();
+            }
+
+            bufferedWriter.write(userFile);
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+            bufferedWriter.close();
+
+
+             if(!file2.exists()){
+                file2.createNewFile();
+            }
+
+            bufferedWriter2.write(ticketsFile);
+            bufferedWriter2.newLine();
+            bufferedWriter2.flush();
+            bufferedWriter2.close();
+
+
+
+             if(!file3.exists()){
+                file3.createNewFile();
+            }
+
+            bufferedWriter3.write(dailyTransactionFile);
+            bufferedWriter3.newLine();
+            bufferedWriter3.flush();
+            bufferedWriter3.close();
+            }
+            catch(Exception e){
+
+
+            }
+
     }
 
     /*
