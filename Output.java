@@ -126,10 +126,20 @@ List<String> tickets_file = new ArrayList<String>();
     }
 
     /*
-    * Function can take in an arraylist with all the inputs
+    * Function takes in a line from the daily transaction file to create user
     *
+    *@Param addLine is a line from the daily transaction file
+    *       it has all the information to create a new user.
     */
-    public void createUser(){
+    public void createUser(String addLine){
+        Stirng newLine;
+        // get the user information
+        String code = addLine.substring(0,2);
+        String username = addLine.substring(2,15);
+        String type = addLine.substring(20,2);
+        String amount = addLine.substring(29,9);
+
+        newLine = username + type + amount;
 
     }
 
@@ -142,10 +152,31 @@ List<String> tickets_file = new ArrayList<String>();
     }
 
     /*
+    * Function takes in the current user line and the amount to add line 
+    * adds the amount to the current user.
     *
+    *  @param addLine this string is the line from the daily transaction file
+    *                  breaks the line to get the amount to add. 
     *
+    * @Parm currentLine this string takes in thr line from the current user file
+    *                    it gets the usernameme, code, and amount. 
     */
-    public void addCredit(){
+    public void addCredit(String addLine, String currentline){
+        double newAmount;
+        String newString;
+
+        // get the amount to add
+        String addCode = addLine.substring(0,2);
+        String addUsername = addLine.substring(2,15);
+        double addAmount = Double.parseDouble(addLine.substring(39,9);
+
+        // get the current users amount
+        String usernameCode = currentline.substring(0,19);
+        double cuAmount = Double.parseDouble(currentline.substring(20,9);
+        // new amount to add to user account file
+        newAmount = addAmount + cuAmount;
+        // new stirng to replace in file
+        newString = usernameCode + Double.toString(newAmount);
 
     }
 
