@@ -32,7 +32,7 @@ public class Input{
         {
             return true;
         }
-        else if (username ==  userLine.substring(0,15))
+        else if (username !=  userLine.substring(0,15))
         {
             return false;
         }
