@@ -17,9 +17,5 @@ public class Main{
     String file3 = "Daily_Transaction_File.txt";
         
         new Output().fileReader(file1, file2, file3);
-
-        //Just a Test to see if FileWriter works
-        //Only Writes String Names 
-        // new Output().fileWriter(file1,file2, file3);
     }     
 }
