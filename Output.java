@@ -242,18 +242,57 @@ List<String> tickets_file = new ArrayList<String>();
     }
 
     /*
+    *Function takes in the refind line from the daily transaction file
+    * then it takes the lines from the user file and gives credit to the 
+    * buyer and takes away credits from the seller
     *
+    *@Param refundLine takes in the line needed to be refunded from the transaction file
+    *        and gives the buyer username and seller name and amount
     *
+    *@Param userLine takes in the buyer and seller information
+    *       gets the amount of credits they have and refunds the buyer
+    *       whole taking money back from the seller    
     */
-    public void refundUser(){
+    public void refundUser(String refundLine, String userLine){
+        
+        String newBuyerString; 
+        String newSellerString;
+        String sellerName = refundLine.substring(4,16);
+        String buyerName = refundLine.substring(20,12);
+        Double refundAmount = Double.parseDouble(refundLine.substring(36,9);
+
+        if (buyerName == userLine.substring(0,15))
+        {
+            String buyerinfo = userLine.substring(0,19);
+            double buyerAmount = Double.parseDouble(userLine.substring(20,9);
+
+            buyerAmount += refundAmount;
+            newBuyerString = buyerinfo +  Double.toString(buyerAmount)
+        }
+        else if (sellerName == userLine.substring(0,15))
+        {
+            String sellerinfo = userLine.substring(0,19);
+            double sellerAmount = Double.parseDouble(userLine.substring(20,9);
+
+            sellerAmount -= refund;
+
+            newSellerString = sellerinfo + Double.toString(sellerAmount);
+        }
 
     }
 
     /*
+    *function takes in the buying ticket line from the file
+    * then checks if the number of tickets a available.
+    * then checks if the user has enough credit to buy the tickets
     *
+    *@Param ticketLine gets the line where it tells the function which 
+    *       user wants to buy and how much tickets
     *
+    *@Param userLine gets the userline that would give the user information
+    *       checks username and if the user has enough credits.
     */
-    public void buyTickets(){
+    public void buyTickets(String ticketLine, String userLine){
 
     }
 

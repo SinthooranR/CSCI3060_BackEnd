@@ -17,16 +17,63 @@ public class Input{
     
     }
 
-    public boolean checkUser_exist(String username){
-        return true; //Just left this here
+    /*
+    *Function checkUser_exist check if the user exists. if the user does already exist
+    * it will return true, if user doesnt exist it will return false
+    *
+    *@Param username the name we are checking if it exist
+    *
+    *@Param userLine takes in the useraccount lines and check with it for usernames  
+    */
+    public boolean checkUser_exist(String username, String userLine)1{
+        
+        if (username ==  userLine.substring(0,15))
+        {
+            return true;
+        }
+        else if (username ==  userLine.substring(0,15))
+        {
+            return false;
+        }
+        
     }
 
-    public boolean checkTicket_quantity(int ticketQuantity){
-        return true;
+    /*
+    *Function checkTicket_quantity checks if the number of tickets are available
+    *
+    *@Param ticketQuantity the amount of tickets the user wants to buy
+    *
+    *@Param buyerline goes through the ticket lines and checks if the number of tickets is available  
+    */
+    public boolean checkTicket_quantity(int ticketQuantity, String buyerline){
+        
+        if (ticketQuantity >= buyerline.substring(41,3))
+        {
+            return true;
+        }
+        else if (ticketQuantity < buyerline.substring(41,3))
+        {
+            return false;
+        }
     }
 
-    public boolean checkUser_money(double userCredit){
-        return true;
+    /*
+    *Function checkUser_money checks if the user has enough credit to buy
+    *
+    *@Param credit the amount of credit to check
+    *
+    *@Param userLine goes through the user lines and checks if the number of credit is available  
+    */
+    public boolean checkUser_credit(double credit, String userLine){
+        
+        if (credit >= userLine.substring(20,9))
+        {
+            return true;
+        }
+        else if (credit < userLine.substring(20,9))
+        {
+            return false;
+        }
     }
 
  

@@ -1,5 +1,3 @@
 05 SellerJonesSS   BuyerJonesBS    005000.00
 05 SellerJonesSS   BuyerJonesBS    000005.05
 05 SellerJonesSS   BuyerJonesBS    000010.00
-02 SellerJonesAA   AA 000000.00  
-04 SQALabsTime               SellerJonesSS   28  110.00
