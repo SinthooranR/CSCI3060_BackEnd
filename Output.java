@@ -21,7 +21,7 @@ List<String> daily_trans = new ArrayList<String>();
 List<String> user_file = new ArrayList<String>();
 List<String> tickets_file = new ArrayList<String>();
 
-public Transaction transaction = new Transaction();
+public TransactionHandler transactionhandler = new TransactionHandler();
 
     public Output(){
 
@@ -94,31 +94,31 @@ public Transaction transaction = new Transaction();
         // TODO need to fix up all the individual command functions and fill in buy
         switch (code){
           case "01":
-            transaction.createUser(trans);
+            transactionhandler.createUser(trans);
             break;
 
           case "02":
-            transaction.deleteUser(trans);
+            transactionhandler.deleteUser(trans);
             break;
 
           case "03":
-            transaction.sellTickets(trans);
+            transactionhandler.sellTickets(trans);
             break;
 
           case "04":
             // TODO get seller info to be sent as one string
-            transaction.buyTickets(trans, curr_user_logout, null);
+            transactionhandler.buyTickets(trans, curr_user_logout, null);
             break;
 
           case "05":
             // TODO get buyer and seller info to one string
-            transaction.refundUser(trans, null, null);
+            transactionhandler.refundUser(trans, null, null);
             break;
 
           case "06":
 
             // TODO get user information preferably making a function in Input passing the user array List
-            transaction.addCredit(trans, null);
+            transactionhandler.addCredit(trans, null);
             break;
           default:
             break;
