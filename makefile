@@ -5,7 +5,7 @@ JC = javac
 .java.class: ; $(JC) $(JFLAGS) $*.java
 
 CLASSES = \
-        Input.java \
+        Validator.java \
         Output.java \
         TransactionHandler.java \
         Main.java

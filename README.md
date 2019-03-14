@@ -6,7 +6,7 @@ BackEnd for SQA Project (Phases 4,5, and 6)
 > 2. Samuel Pilkey
 > 3. Hamza Naseer
 
-### Folder and Classes 
+### Folder and Classes
 > * Backend holds all the code for the backend of the project (Java)
 > * Has 3 Classes (Input, Output and Main)
 

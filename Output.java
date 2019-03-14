@@ -85,24 +85,85 @@ public TransactionHandler transactionhandler = new TransactionHandler();
       }
       catch(Exception e){
           }
-      }
+    }
+
+    /**
+     * Function that can write the New User, Tickets, and Daily_Transaction Files
+     * @param userFile This string will grab the data
+     *                 to update the New User
+     *                 Accounts File
+     * @param ticketFile This string will grab the data
+     *                   to update the New Available
+     *                   Tickets File.
+     * @param dailyTransactionFile This string will grab the data
+     *                             to update the New Merged Daily
+     *                             Transaction File.
+     */
+     public void fileWriter(String userFile, String ticketsFile, String dailyTransactionFile){
+         try{
+         //FileWriter for new userFile
+         File file = new File("New_User_Accounts_File.txt");
+         FileWriter fileWriter = new FileWriter(file);
+         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+         //FileReader for new ticketsFile
+         File file2 = new File("New_Avaiable_Tickets_File.txt");
+         FileWriter fileWriter2 = new FileWriter(file2);
+         BufferedWriter bufferedWriter2 = new BufferedWriter(fileWriter2);
+         //FileReader for new dailyTransactionFile
+         File file3 = new File("New_Daily_Transaction_File");
+         FileWriter fileWriter3 = new FileWriter(file3);
+         BufferedWriter bufferedWriter3 = new BufferedWriter(fileWriter3);
+             //Checks if New User File Exists. If not it will generate it, and then write to it.
+             if(!file.exists()){
+                 file.createNewFile();
+             }
+             bufferedWriter.write(userFile);
+             bufferedWriter.newLine();
+             bufferedWriter.flush();
+             bufferedWriter.close();
+
+             //Checks if New Tickets File Exists. If not it will generate it, and then write to it.
+              if(!file2.exists()){
+                 file2.createNewFile();
+             }
+             bufferedWriter2.write(ticketsFile);
+             bufferedWriter2.newLine();
+             bufferedWriter2.flush();
+             bufferedWriter2.close();
+
+             //Checks if New Daily Transaction File Exists. If not it will generate it, and then write to it.
+              if(!file3.exists()){
+                 file3.createNewFile();
+             }
+             bufferedWriter3.write(dailyTransactionFile);
+             bufferedWriter3.newLine();
+             bufferedWriter3.flush();
+             bufferedWriter3.close();
+             }
+             catch(Exception e){
+         }
+     }
 
     public void proccessOnceSessionTrans(List<String> curr_session, String curr_user_logout){
       for (String trans: curr_session){
+
         String code = trans.substring(0, Math.min(trans.length(), 2));
 
         // TODO need to fix up all the individual command functions and fill in buy
         switch (code){
           case "01":
-            transactionhandler.createUser(trans);
+            transactionhandler.createUser(trans, user_file);
+            //correct for now
             break;
 
           case "02":
-            transactionhandler.deleteUser(trans);
+            transactionhandler.deleteUser(trans, user_file);
+            //correct for now
             break;
 
           case "03":
-            transactionhandler.sellTickets(trans);
+            transactionhandler.sellTickets(trans, user_file);
+
             break;
 
           case "04":
@@ -143,62 +204,5 @@ public TransactionHandler transactionhandler = new TransactionHandler();
 
         }
       }
-    }
-
-   /**
-    * Function that can write the New User, Tickets, and Daily_Transaction Files
-    * @param userFile This string will grab the data
-    *                 to update the New User
-    *                 Accounts File
-    * @param ticketFile This string will grab the data
-    *                   to update the New Available
-    *                   Tickets File.
-    * @param dailyTransactionFile This string will grab the data
-    *                             to update the New Merged Daily
-    *                             Transaction File.
-    */
-    public void fileWriter(String userFile, String ticketsFile, String dailyTransactionFile){
-        try{
-        //FileWriter for new userFile
-        File file = new File("New_User_Accounts_File.txt");
-        FileWriter fileWriter = new FileWriter(file);
-        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-        //FileReader for new ticketsFile
-        File file2 = new File("New_Avaiable_Tickets_File.txt");
-        FileWriter fileWriter2 = new FileWriter(file2);
-        BufferedWriter bufferedWriter2 = new BufferedWriter(fileWriter2);
-        //FileReader for new dailyTransactionFile
-        File file3 = new File("New_Daily_Transaction_File");
-        FileWriter fileWriter3 = new FileWriter(file3);
-        BufferedWriter bufferedWriter3 = new BufferedWriter(fileWriter3);
-            //Checks if New User File Exists. If not it will generate it, and then write to it.
-            if(!file.exists()){
-                file.createNewFile();
-            }
-            bufferedWriter.write(userFile);
-            bufferedWriter.newLine();
-            bufferedWriter.flush();
-            bufferedWriter.close();
-
-            //Checks if New Tickets File Exists. If not it will generate it, and then write to it.
-             if(!file2.exists()){
-                file2.createNewFile();
-            }
-            bufferedWriter2.write(ticketsFile);
-            bufferedWriter2.newLine();
-            bufferedWriter2.flush();
-            bufferedWriter2.close();
-
-            //Checks if New Daily Transaction File Exists. If not it will generate it, and then write to it.
-             if(!file3.exists()){
-                file3.createNewFile();
-            }
-            bufferedWriter3.write(dailyTransactionFile);
-            bufferedWriter3.newLine();
-            bufferedWriter3.flush();
-            bufferedWriter3.close();
-            }
-            catch(Exception e){
-        }
     }
 }

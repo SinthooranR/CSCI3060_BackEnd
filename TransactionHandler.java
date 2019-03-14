@@ -1,3 +1,4 @@
+import java.util.*;
 /**
 * The Transaction Class Uses the codes from the Transaction File
 * to gather the important information from Current User File
@@ -12,9 +13,10 @@
 */
 
 public class TransactionHandler{
-
+    private
+        Validator tran_validator;
     public TransactionHandler(){
-        
+        tran_validator = new Validator();
     }
 
     /**
@@ -22,16 +24,18 @@ public class TransactionHandler{
     *
     * @param addLine is a line from the daily transaction file
     *                it has all the information to create a new user.
+    *
+    * @param user_file is a
     */
-    public void createUser(String addLine){
-        String newLine;
-        // get the user information
-        String code = addLine.substring(0,2);
-        String username = addLine.substring(2,15);
-        String type = addLine.substring(20,2);
-        String amount = addLine.substring(29,9);
+    public void createUser(String addLine, List<String> user_file){
 
-        newLine = username + type + amount;
+        String user_to_add = addLine.substring(3, addLine.length());
+
+        if (tran_validator.checkUser_exist(user_to_add, user_file) == false){
+            user_file.add(user_to_add);
+        } else {
+            System.out.println("Error: Cannot add user as user already exist");
+        }
     }
 
     /**
@@ -40,16 +44,14 @@ public class TransactionHandler{
     * @param sellLine is a line from the daily transaction file
     *                it has all the information to create events.
     */
-    public void sellTickets(String sellLine){
-        String newLine;
-        // Gets the Event Information Inputted by the Seller
-        String sellCode = sellLine.substring(0,2);
-        String eventname = sellLine.substring(3,28);
-        String sellername = sellLine.substring(29,44);
-        String tickets = sellLine.substring(45,48);
-        String price = sellLine.substring(49,55);
+    public void sellTickets(String sellLine, List<String> tickets_file) {
 
-        newLine = eventname + sellername + tickets + price;
+        String ticket_to_add = sellLine.substring(3, sellLine.length());
+        if (tran_validator.checkTicket_exists(ticket_to_add, tickets_file) == false){
+            tickets_file.add(ticket_to_add);
+        } else {
+            System.out.println("Error: Cannot sell tickets as these tickets is already being");
+        }
     }
 
     /**
@@ -90,26 +92,16 @@ public class TransactionHandler{
     * @param currentline this string takes in thr line from the current user file
     *                    and gets substrings for respective attributes
     */
-    public void deleteUser(String deleteLine){
+    public void deleteUser(String deleteLine, List<String> user_file){
         //String used to Update the deleted User in the Current Users File
-        String updateUser = " ";
-        //String used to create the new line with details to be replaced
-        String newLine;
+        String user_to_delete = deleteLine.substring(3, deleteLine.length());
 
-        // Gets the information from Daily Transaction File
-        String deleteCode = deleteLine.substring(0,2);
-        String user = deleteLine.substring(3,18);
-        String account = deleteLine.substring(19,21);
-        String credit = deleteLine.substring(22,31);
-
-        // Gets the information from Current User File
-        String username = deleteLine.substring(3,18);
-        String accountType = deleteLine.substring(19,21);
-        String creditAmount = deleteLine.substring(22,31);
-
+        if(tran_validator.checkUser_exist(user_to_delete, user_file) == true){
+            user_file.remove(user_to_delete);
+        }else{
+            System.out.println("Error: User to be deleted was not found");
+        }
         //Updates the String
-        newLine = username + accountType + creditAmount;
-        newLine.replace(newLine, updateUser);
     }
 
     /**
@@ -163,6 +155,7 @@ public class TransactionHandler{
     *                 checks username and if the user has enough credits.
     */
     public void buyTickets(String ticketLine, String userLine, String sellerLine){
+
     }
 
 }
