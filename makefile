@@ -7,6 +7,7 @@ JC = javac
 CLASSES = \
         Input.java \
         Output.java \
+        TransactionHandler.java \
         Main.java
 
 default: classes
