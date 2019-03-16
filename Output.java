@@ -20,6 +20,7 @@ String line = "";
 List<String> daily_trans = new ArrayList<String>();
 List<String> user_file = new ArrayList<String>();
 List<String> tickets_file = new ArrayList<String>();
+List<String> init_ticket_file = new ArrayList<String>();
 
 public TransactionHandler transactionhandler = new TransactionHandler();
 
@@ -55,6 +56,7 @@ public TransactionHandler transactionhandler = new TransactionHandler();
           File file3 = new File(dailyTransactionFile);
           FileReader fileReader3 = new FileReader(file3);
           BufferedReader bufferedReader3 = new BufferedReader(fileReader3);
+
 
           //Reads Current_User_Accounts_File
           while ((line = bufferedReader.readLine()) != null){
@@ -145,11 +147,12 @@ public TransactionHandler transactionhandler = new TransactionHandler();
      }
 
     public void proccessOnceSessionTrans(List<String> curr_session, String curr_user_logout){
+
       for (String trans: curr_session){
 
         String code = trans.substring(0, Math.min(trans.length(), 2));
-
-        // TODO need to fix up all the individual command functions and fill in buy
+        List<String> sinit_ticket_file = tickets_file;
+         // TODO need to fix up all the individual command functions and fill in buy
         switch (code){
           case "01":
             transactionhandler.createUser(trans, user_file);
@@ -162,13 +165,17 @@ public TransactionHandler transactionhandler = new TransactionHandler();
             break;
 
           case "03":
-            transactionhandler.sellTickets(trans, user_file);
+          // check seller exists
+            transactionhandler.sellTickets(trans, tickets_file, user_file);
 
             break;
 
           case "04":
             // TODO get seller info to be sent as one string
-            transactionhandler.buyTickets(trans, curr_user_logout, null);
+            // need a static version of tickets file
+
+
+            transactionhandler.buyTickets(trans, curr_user_logout, user_file, tickets_file, init_ticket_file);
             break;
 
           case "05":
@@ -190,11 +197,11 @@ public TransactionHandler transactionhandler = new TransactionHandler();
     public void processAllTrans(){
 
       List<String> curr_session = new ArrayList<String>();
-
+      init_ticket_file = tickets_file;
 
       for (String trans: daily_trans){
         String code = trans.substring(0, Math.min(trans.length(), 2));
-
+        
         if (code.equals("00")){
           proccessOnceSessionTrans(curr_session, trans);
           curr_session.clear();

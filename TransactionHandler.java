@@ -44,10 +44,11 @@ public class TransactionHandler{
     * @param sellLine is a line from the daily transaction file
     *                it has all the information to create events.
     */
-    public void sellTickets(String sellLine, List<String> tickets_file) {
+    public void sellTickets(String sellLine, List<String> tickets_file, List<String> user_file) {
 
         String ticket_to_add = sellLine.substring(3, sellLine.length());
-        if (tran_validator.checkTicket_exists(ticket_to_add, tickets_file) == false){
+
+        if (tran_validator.checkTicket_exists(ticket_to_add, tickets_file) == false && getUser(sellLine.substring(29, 44),  user_file) != null){
             tickets_file.add(ticket_to_add);
         } else {
             System.out.println("Error: Cannot sell tickets as these tickets is already being");
@@ -154,8 +155,95 @@ public class TransactionHandler{
     * @param userLine gets the userline that would give the user information
     *                 checks username and if the user has enough credits.
     */
-    public void buyTickets(String ticketLine, String userLine, String sellerLine){
+    public void buyTickets(String ticketLine, String userLine, List<String> user_file, List<String> tickets_file, List<String> init_tickets_file){
+        String event_name = ticketLine.substring(3, 28);
+        String seller_username = ticketLine.substring(29, 44);
 
+        String ticket_info = ticketLine.substring(3, ticketLine.length());
+        String remaining_ticket_info = getTickets(event_name, tickets_file);
+        String init_ticket_info = getTickets(event_name, init_tickets_file);
+
+        String buyer_info = userLine.substring(3,userLine.length());
+        Double buyer_credit = Double.parseDouble(userLine.substring(22, 31));
+
+        String seller_info = getUser(seller_username, user_file);
+
+        if (ticket_info != null && remaining_ticket_info != null){
+
+            int tickets_sold = Integer.parseInt(init_ticket_info.substring(42,45)) - Integer.parseInt(ticket_info.substring(42,45));
+            int tickets_left = Integer.parseInt(remaining_ticket_info.substring(42,45));
+            if (tickets_left > tickets_sold) {
+                tickets_left -= tickets_sold;
+                if (seller_info != null){
+
+                    double seller_credit = Double.parseDouble(seller_info.substring(19,28));
+                    double ticket_price = Double.parseDouble(init_ticket_info.substring(46, 51));
+                    double total_price = tickets_sold * ticket_price;
+
+
+                    if (total_price < seller_credit && total_price < buyer_credit && seller_credit + total_price < 999999.99){
+
+                        buyer_credit -= total_price;
+                        seller_credit += total_price;
+
+                        String format = "%6.2f";  // width == 6 and 2 digits after the dot
+
+                        String b_credit_padded = String.format(format, buyer_credit);
+                        String s_credit_padded = String.format(format, seller_credit);
+
+                        String pad = "0";
+
+                        b_credit_padded = pad.repeat(9 - b_credit_padded.length()) + b_credit_padded;
+                        s_credit_padded = pad.repeat(9 - s_credit_padded.length()) + s_credit_padded;
+                        //b_credit_padded = ("000000000" + b_credit_padded).substring(b_credit_padded.length());
+                        //s_credit_padded = ("000000000" + s_credit_padded).substring(s_credit_padded.length());
+
+                        String new_buyer_info = buyer_info.substring(0, 19);
+                        String new_seller_info = seller_info.substring(0, 19);
+
+                        new_buyer_info += b_credit_padded;
+                        new_seller_info += s_credit_padded;
+
+                        user_file.remove(buyer_info);
+                        user_file.remove(seller_info);
+
+                        user_file.add(new_buyer_info);
+                        user_file.add(new_seller_info);
+
+                    } else {
+                        System.out.println("Error: seller or buyer do not have enough credit remaining or Seller exceeded mac credit");
+                    }
+                } else {
+                    System.out.println("Error: Seller no longer exists in this data set");
+                }
+            } else {
+                System.out.println("Error: Not enough tickets remaining");
+            }
+        } else {
+            System.out.println("Error: Ticket information was not found");
+        }
     }
+
+    public String getUser(String username, List<String> user_file){
+        for(String line: user_file){
+            String line_username = line.substring(0, Math.min(15, line.length()));
+            if(username.equals(line_username)){
+                return line;
+            }
+        }
+        return null;
+    }
+
+    public String getTickets(String event_name, List<String> tickets_file){
+        for(String line: tickets_file){
+            String line_event_name = line.substring(0, 25);
+            if(event_name.equals(line_event_name)){
+                return line;
+            }
+        }
+        return null;
+    }
+
+
 
 }

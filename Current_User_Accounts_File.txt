@@ -1,5 +1,5 @@
 Non Admin User  FS 000000.00
-John Doe 123456 AA 000000.00
+John Doe 123456 AA 330000.00
 Seller Account1 SS 000000.00
 RecieverAccount FS 000000.00
 AdminUser123456 AA 000000.00
@@ -7,7 +7,7 @@ NonAdminUser123 FS 000000.00
 BobJonesADMIN   AA 190000.00
 BobJonesNOADMIN FS 000000.00
 SellerJonesAA   AA 000000.00
-SellerJonesSS   SS 000000.00
+SellerJonesSS   SS 012312.00
 BuyerJonesBS    BS 190000.00
 BuyerJonesSS    SS 190000.00
 createdAdmin    AA 000000.00

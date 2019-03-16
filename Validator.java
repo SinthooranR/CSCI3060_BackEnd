@@ -42,8 +42,8 @@ public class Validator{
     public boolean checkTicket_exists(String ticketLine, List<String> tickets_file){
 
         for(String line: tickets_file){
-            line = line.substring(0, Math.min(25, line.length()));
-            if(ticketLine.substring(0, Math.min(25, line.length())).equals(line)){
+            String event_name = line.substring(0, Math.min(25, line.length()));
+            if(ticketLine.substring(0, Math.min(25, line.length())).equals(event_name)){
                 return true;
             }
         }
