@@ -20,7 +20,7 @@ String line = "";
 List<String> daily_trans = new ArrayList<String>();
 List<String> user_file = new ArrayList<String>();
 List<String> tickets_file = new ArrayList<String>();
-List<String> init_ticket_file = new ArrayList<String>();
+List<String> init_tickets_file;
 
 public TransactionHandler transactionhandler = new TransactionHandler();
 
@@ -151,7 +151,7 @@ public TransactionHandler transactionhandler = new TransactionHandler();
       for (String trans: curr_session){
 
         String code = trans.substring(0, Math.min(trans.length(), 2));
-        List<String> sinit_ticket_file = tickets_file;
+
          // TODO need to fix up all the individual command functions and fill in buy
         switch (code){
           case "01":
@@ -160,7 +160,7 @@ public TransactionHandler transactionhandler = new TransactionHandler();
             break;
 
           case "02":
-            transactionhandler.deleteUser(trans, user_file);
+            transactionhandler.deleteUser(trans, user_file, tickets_file);
             //correct for now
             break;
 
@@ -171,12 +171,9 @@ public TransactionHandler transactionhandler = new TransactionHandler();
             break;
 
           case "04":
-            // TODO get seller info to be sent as one string
-            // need a static version of tickets file
 
-
-            transactionhandler.buyTickets(trans, curr_user_logout, user_file, tickets_file, init_ticket_file);
-            break;
+              transactionhandler.buyTickets(trans, curr_user_logout, user_file, tickets_file, init_tickets_file);
+              break;
 
           case "05":
             // TODO get buyer and seller info to one string
@@ -197,11 +194,11 @@ public TransactionHandler transactionhandler = new TransactionHandler();
     public void processAllTrans(){
 
       List<String> curr_session = new ArrayList<String>();
-      init_ticket_file = tickets_file;
-
+      init_tickets_file = new ArrayList<String>(tickets_file);
+      
       for (String trans: daily_trans){
         String code = trans.substring(0, Math.min(trans.length(), 2));
-        
+
         if (code.equals("00")){
           proccessOnceSessionTrans(curr_session, trans);
           curr_session.clear();

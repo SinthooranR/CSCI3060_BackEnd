@@ -93,12 +93,25 @@ public class TransactionHandler{
     * @param currentline this string takes in thr line from the current user file
     *                    and gets substrings for respective attributes
     */
-    public void deleteUser(String deleteLine, List<String> user_file){
+    public void deleteUser(String deleteLine, List<String> user_file, List<String> tickets_file){
         //String used to Update the deleted User in the Current Users File
         String user_to_delete = deleteLine.substring(3, deleteLine.length());
-
+        String user_name = deleteLine.substring(3,19);
         if(tran_validator.checkUser_exist(user_to_delete, user_file) == true){
             user_file.remove(user_to_delete);
+
+
+            Iterator<String> it = tickets_file.iterator();
+
+            while(it.hasNext()){
+                String line = it.next();
+                String seller_name = line.substring(26,41);
+
+                if(user_name.equals(seller_name)){
+                    tickets_file.remove(line);
+                }
+            }
+
         }else{
             System.out.println("Error: User to be deleted was not found");
         }
@@ -195,8 +208,6 @@ public class TransactionHandler{
 
                         b_credit_padded = pad.repeat(9 - b_credit_padded.length()) + b_credit_padded;
                         s_credit_padded = pad.repeat(9 - s_credit_padded.length()) + s_credit_padded;
-                        //b_credit_padded = ("000000000" + b_credit_padded).substring(b_credit_padded.length());
-                        //s_credit_padded = ("000000000" + s_credit_padded).substring(s_credit_padded.length());
 
                         String new_buyer_info = buyer_info.substring(0, 19);
                         String new_seller_info = seller_info.substring(0, 19);
@@ -209,6 +220,20 @@ public class TransactionHandler{
 
                         user_file.add(new_buyer_info);
                         user_file.add(new_seller_info);
+
+                        //System.out.println(remaining_ticket_info);
+
+                        String ticket_price_string = init_ticket_info.substring(46, 52);
+                        String rem_tickets = Integer.toString(tickets_left);
+
+                        rem_tickets = pad.repeat(3 - rem_tickets.length()) + rem_tickets;
+
+                        String new_ticket_info = init_ticket_info.substring(0,40);
+
+                        new_ticket_info += "  " + rem_tickets + " " + ticket_price_string;
+
+                        tickets_file.remove(remaining_ticket_info);
+                        tickets_file.add(new_ticket_info);
 
                     } else {
                         System.out.println("Error: seller or buyer do not have enough credit remaining or Seller exceeded mac credit");
