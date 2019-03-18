@@ -95,46 +95,59 @@ public TransactionHandler transactionhandler = new TransactionHandler();
      *                             to update the New Merged Daily
      *                             Transaction File.
      */
-     public void fileWriter(String userFile, String ticketsFile, String dailyTransactionFile){
+     public void fileWriter(){
+      File file = new File("New_User_Accounts_File.txt");
+      File file2 = new File("New_Avaiable_Tickets_File.txt");
+      File file3 = new File("New_Daily_Transaction_File");
          try{
          //FileWriter for new userFile
-         File file = new File("New_User_Accounts_File.txt");
-         FileWriter fileWriter = new FileWriter(file);
-         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+        //  File file = new File("New_User_Accounts_File.txt");
+        //  FileWriter fileWriter = new FileWriter(file);
+        //  BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
          //FileReader for new ticketsFile
-         File file2 = new File("New_Avaiable_Tickets_File.txt");
-         FileWriter fileWriter2 = new FileWriter(file2);
-         BufferedWriter bufferedWriter2 = new BufferedWriter(fileWriter2);
+        //  File file2 = new File("New_Avaiable_Tickets_File.txt");
+        //  FileWriter fileWriter2 = new FileWriter(file2);
+        //  BufferedWriter bufferedWriter2 = new BufferedWriter(fileWriter2);
+
          //FileReader for new dailyTransactionFile
-         File file3 = new File("New_Daily_Transaction_File");
-         FileWriter fileWriter3 = new FileWriter(file3);
-         BufferedWriter bufferedWriter3 = new BufferedWriter(fileWriter3);
-             //Checks if New User File Exists. If not it will generate it, and then write to it.
+        //  File file3 = new File("New_Daily_Transaction_File");
+        //  FileWriter fileWriter3 = new FileWriter(file3);
+        //  BufferedWriter bufferedWriter3 = new BufferedWriter(fileWriter3);
+             
+        //Checks if New User File Exists. If not it will generate it, and then write to it.
              if(!file.exists()){
                  file.createNewFile();
              }
-             bufferedWriter.write(userFile);
-             bufferedWriter.newLine();
-             bufferedWriter.flush();
-             bufferedWriter.close();
+             FileWriter writer = new FileWriter(file); 
+             for(String user: user_file) {
+             writer.write(user);
+             writer.write("\n");
+            }
+             writer.close();
 
              //Checks if New Tickets File Exists. If not it will generate it, and then write to it.
               if(!file2.exists()){
                  file2.createNewFile();
              }
-             bufferedWriter2.write(ticketsFile);
-             bufferedWriter2.newLine();
-             bufferedWriter2.flush();
-             bufferedWriter2.close();
+             FileWriter writer2 = new FileWriter(file2); 
+             for(String tickets: tickets_file) {
+             writer2.write(tickets);
+             writer2.write("\n");
+            }
+             writer2.close();
 
              //Checks if New Daily Transaction File Exists. If not it will generate it, and then write to it.
               if(!file3.exists()){
                  file3.createNewFile();
              }
-             bufferedWriter3.write(dailyTransactionFile);
-             bufferedWriter3.newLine();
-             bufferedWriter3.flush();
-             bufferedWriter3.close();
+             FileWriter writer3 = new FileWriter(file3); 
+             for(String transaction: daily_trans) {
+             writer3.write(transaction);
+             writer3.write("\n");
+            }
+             writer3.close();
              }
              catch(Exception e){
          }

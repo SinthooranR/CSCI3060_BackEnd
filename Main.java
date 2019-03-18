@@ -19,6 +19,7 @@ public class Main{
     out.fileReader(file1, file2, file3);
 
     out.processAllTrans();
+    out.fileWriter();
 
     
 
