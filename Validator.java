@@ -29,7 +29,14 @@ public class Validator{
     */
 
     public boolean checkUser_exist(String userLine, List<String> user_file){
-        return user_file.contains(userLine);
+        String username = userLine.substring(0,15);
+        for(String line: user_file){
+            String line_username = line.substring(0, Math.min(15, line.length()));
+            if(username.equals(line_username)){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

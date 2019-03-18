@@ -115,12 +115,12 @@ public TransactionHandler transactionhandler = new TransactionHandler();
         //  File file3 = new File("New_Daily_Transaction_File");
         //  FileWriter fileWriter3 = new FileWriter(file3);
         //  BufferedWriter bufferedWriter3 = new BufferedWriter(fileWriter3);
-             
+
         //Checks if New User File Exists. If not it will generate it, and then write to it.
              if(!file.exists()){
                  file.createNewFile();
              }
-             FileWriter writer = new FileWriter(file); 
+             FileWriter writer = new FileWriter(file);
              for(String user: user_file) {
              writer.write(user);
              writer.write("\n");
@@ -131,7 +131,7 @@ public TransactionHandler transactionhandler = new TransactionHandler();
               if(!file2.exists()){
                  file2.createNewFile();
              }
-             FileWriter writer2 = new FileWriter(file2); 
+             FileWriter writer2 = new FileWriter(file2);
              for(String tickets: tickets_file) {
              writer2.write(tickets);
              writer2.write("\n");
@@ -142,7 +142,7 @@ public TransactionHandler transactionhandler = new TransactionHandler();
               if(!file3.exists()){
                  file3.createNewFile();
              }
-             FileWriter writer3 = new FileWriter(file3); 
+             FileWriter writer3 = new FileWriter(file3);
              for(String transaction: daily_trans) {
              writer3.write(transaction);
              writer3.write("\n");
@@ -202,7 +202,7 @@ public TransactionHandler transactionhandler = new TransactionHandler();
 
       List<String> curr_session = new ArrayList<String>();
       init_tickets_file = new ArrayList<String>(tickets_file);
-      
+
       for (String trans: daily_trans){
         String code = trans.substring(0, Math.min(trans.length(), 2));
 

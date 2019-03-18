@@ -51,7 +51,7 @@ public class TransactionHandler{
         if (tran_validator.checkTicket_exists(ticket_to_add, tickets_file) == false && getUser(sellLine.substring(29, 44),  user_file) != null){
             tickets_file.add(ticket_to_add);
         } else {
-            System.out.println("Error: Cannot sell tickets as these tickets is already being");
+            System.out.println("Error: Cannot sell tickets as these tickets is already being sold");
         }
     }
 
@@ -86,7 +86,7 @@ public class TransactionHandler{
                 String pad = "0";
 
                 user_credit_padded = pad.repeat(9 - user_credit_padded.length()) + user_credit_padded;
-         
+
                 String updatedUserCred = userInfo.substring(0,19);
                 updatedUserCred += user_credit_padded;
 
@@ -131,7 +131,8 @@ public class TransactionHandler{
                 String seller_name = line.substring(26,41);
 
                 if(user_name.equals(seller_name)){
-                    tickets_file.remove(line);
+
+                    tickets_file.remove(getUser(user_name, user_file));
                 }
             }
 
@@ -163,11 +164,11 @@ public class TransactionHandler{
 
 
         String buyerInfo = getUser(buyerAccount, user_file);
-        String sellerInfo = getUser(sellerAccount, user_file); 
+        String sellerInfo = getUser(sellerAccount, user_file);
 
         //Check if User Exists and Check if Seller Exists
         ;
-       
+
         if(buyerInfo != null && sellerInfo != null){
             double getBuyerCredit = Double.parseDouble(buyerInfo.substring(18,27));
             double getSellerCredit = Double.parseDouble(sellerInfo.substring(18,27));
@@ -201,7 +202,7 @@ public class TransactionHandler{
             } else {
                 System.out.println("Seller does not have enough Credit for Refund");
             }
-        
+
 
         } else {
             System.out.println("Seller does not have enough Credit for Refund");
@@ -227,8 +228,8 @@ public class TransactionHandler{
         String remaining_ticket_info = getTickets(event_name, tickets_file);
         String init_ticket_info = getTickets(event_name, init_tickets_file);
 
-        String buyer_info = userLine.substring(3,userLine.length());
-        Double buyer_credit = Double.parseDouble(userLine.substring(22, 31));
+        String buyer_info = getUser(userLine.substring(3, 18), user_file);
+        Double buyer_credit = Double.parseDouble(buyer_info.substring(19, 28));
 
         String seller_info = getUser(seller_username, user_file);
 
