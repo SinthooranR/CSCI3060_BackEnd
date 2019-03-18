@@ -60,30 +60,24 @@ public TransactionHandler transactionhandler = new TransactionHandler();
 
           //Reads Current_User_Accounts_File
           while ((line = bufferedReader.readLine()) != null){
-              //Has the substrings for Users
-              String usernames = line.substring(0,15);
               user_file.add(line);
-              System.out.println(line);
+              //System.out.println(line);
           }
           bufferedReader.close();
 
           //Reads Available_Tickets_File
           while ((line = bufferedReader2.readLine()) != null){
-              //Has the substrings for Event names
-              String eventnames = line.substring(0,25);
               tickets_file.add(line);
-              System.out.println(line);
+              //System.out.println(line);
           }
           bufferedReader2.close();
 
           //Reads Merged Daily Transaction File
           while ((line = bufferedReader3.readLine()) != null){
-              //Still Needs Work
               daily_trans.add(line);
-              System.out.println(line);
+              //System.out.println(line);
           }
           bufferedReader3.close();
-
       }
       catch(Exception e){
           }
@@ -177,13 +171,13 @@ public TransactionHandler transactionhandler = new TransactionHandler();
 
           case "05":
             // TODO get buyer and seller info to one string
-            transactionhandler.refundUser(trans, null, null);
+            transactionhandler.refundUser(trans, user_file);
             break;
 
           case "06":
 
             // TODO get user information preferably making a function in Input passing the user array List
-            transactionhandler.addCredit(trans, null);
+            transactionhandler.addCredit(trans, user_file);
             break;
           default:
             break;

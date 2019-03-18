@@ -62,25 +62,48 @@ public class TransactionHandler{
     * @param addLine this string is the line from the daily transaction file
     *                breaks the line to get the amount to add.
     *
-    * @param currentLine this string takes in thr line from the current user file
-    *                    it gets the usernameme, code, and amount.
+    * @param user_file this string takes in the line from the current user file
+    *                  in the form of a list and, it gets the usernameme,
+    *                  code, and  credit amount.
     */
-    public void addCredit(String addLine, String currentline){
-        double newAmount;
-        String newString;
+    public void addCredit(String addLine, List<String> user_file){
+        String userAccount = addLine.substring(3, 18);
+        String userInfo = getUser(userAccount, user_file);
 
-        // get the amount to add
-        String addCode = addLine.substring(0,2);
-        String addUsername = addLine.substring(2,15);
-        double addAmount = Double.parseDouble(addLine.substring(39,9));
+        if(userInfo != null){
+            Double addCredit = Double.parseDouble(addLine.substring(21,30));
+            Double userCredit = Double.parseDouble(userInfo.substring(18,27));
 
-        // get the current users amount
-        String usernameCode = currentline.substring(0,19);
-        double cuAmount = Double.parseDouble(currentline.substring(20,9));
-        // new amount to add to user account file
-        newAmount = addAmount + cuAmount;
-        // new stirng to replace in file
-        newString = usernameCode + Double.toString(newAmount);
+            if(userCredit + addCredit < 999999.99){
+                Double newUserCredit = userCredit + addCredit;
+
+                user_file.remove(userInfo);
+
+                String format = "%6.2f";  // width == 6 and 2 digits after the dot
+
+                String user_credit_padded = String.format(format, newUserCredit);
+
+                String pad = "0";
+
+                user_credit_padded = pad.repeat(9 - user_credit_padded.length()) + user_credit_padded;
+         
+                String updatedUserCred = userInfo.substring(0,19);
+                updatedUserCred += user_credit_padded;
+
+                user_file.add(updatedUserCred);
+                System.out.println(updatedUserCred);
+            }
+            else{
+                System.out.println("Error: User Exceeds Maximum Credit");
+            }
+
+        } else {
+            System.out.println("Error: Can't add credit");
+        }
+
+        //Check if User Exists
+
+        //Check if User does not Exceed Max Credit
     }
 
     /**
@@ -126,34 +149,62 @@ public class TransactionHandler{
     * @param refundLine takes in the line needed to be refunded from the transaction file
     *                   and gives the buyer username and seller name and amount
     *
-    * @param userLine takes in the buyer and seller information
+    * @param userFile takes in the buyer and seller information in the form of a list and
     *                 gets the amount of credits they have and refunds the buyer
     *                 whole taking money back from the seller
     */
-    public void refundUser(String refundLine, String userLine, String sellerLine){
+    public void refundUser(String refundLine, List<String> user_file){
+        //#TODO
+        //Grab substrings for Buyer and Seller
+        //System.out.println("Hi beter");
+        String buyerAccount = refundLine.substring(3,18);
+        String sellerAccount = refundLine.substring(19, 34);
+        Double refundCredit = Double.parseDouble(refundLine.substring(35, 43));
 
-        String newBuyerString;
-        String newSellerString;
-        String sellerName = refundLine.substring(4,16);
-        String buyerName = refundLine.substring(20,12);
-        Double refundAmount = Double.parseDouble(refundLine.substring(36,9));
 
-        if (buyerName == userLine.substring(0,15))
-        {
-            String buyerinfo = userLine.substring(0,19);
-            double buyerAmount = Double.parseDouble(userLine.substring(20,9));
+        String buyerInfo = getUser(buyerAccount, user_file);
+        String sellerInfo = getUser(sellerAccount, user_file); 
 
-            buyerAmount += refundAmount;
-            newBuyerString = buyerinfo +  Double.toString(buyerAmount);
-        }
-        else if (sellerName == userLine.substring(0,15))
-        {
-            String sellerinfo = userLine.substring(0,19);
-            double sellerAmount = Double.parseDouble(userLine.substring(20,9));
+        //Check if User Exists and Check if Seller Exists
+        ;
+       
+        if(buyerInfo != null && sellerInfo != null){
+            double getBuyerCredit = Double.parseDouble(buyerInfo.substring(18,27));
+            double getSellerCredit = Double.parseDouble(sellerInfo.substring(18,27));
 
-            sellerAmount -= refundAmount;
+            //Check if Seller has enough Credit
+            if(getBuyerCredit + refundCredit < 999999.99 && getSellerCredit > refundCredit){
+                double newSellerCredit = getSellerCredit - refundCredit;
+                double newBuyerCredit = getBuyerCredit + refundCredit;
+                user_file.remove(buyerInfo);
+                user_file.remove(sellerInfo);
 
-            newSellerString = sellerinfo + Double.toString(sellerAmount);
+                String format = "%6.2f";  // width == 6 and 2 digits after the dot
+
+                String b_credit_padded = String.format(format, newBuyerCredit);
+                String s_credit_padded = String.format(format, newSellerCredit);
+
+                String pad = "0";
+
+                b_credit_padded = pad.repeat(9 - b_credit_padded.length()) + b_credit_padded;
+                s_credit_padded = pad.repeat(9 - s_credit_padded.length()) + s_credit_padded;
+
+                String updatedBuyerCred = buyerInfo.substring(0,19);
+                String updatedSellerCred = sellerInfo.substring(0,19);
+
+                updatedBuyerCred += b_credit_padded;
+                updatedSellerCred += s_credit_padded;
+
+                user_file.add(updatedBuyerCred);
+                user_file.add(updatedSellerCred);
+
+            } else {
+                System.out.println("Seller does not have enough Credit for Refund");
+            }
+        
+
+        } else {
+            System.out.println("Seller does not have enough Credit for Refund");
         }
     }
 
