@@ -119,7 +119,7 @@ public class TransactionHandler{
     public void deleteUser(String deleteLine, List<String> user_file, List<String> tickets_file){
         //String used to Update the deleted User in the Current Users File
         String user_to_delete = deleteLine.substring(3, deleteLine.length());
-        String user_name = deleteLine.substring(3,19);
+        String user_name = deleteLine.substring(3,18);
         if(tran_validator.checkUser_exist(user_to_delete, user_file) == true){
             user_file.remove(user_to_delete);
 
@@ -131,8 +131,7 @@ public class TransactionHandler{
                 String seller_name = line.substring(26,41);
 
                 if(user_name.equals(seller_name)){
-
-                    tickets_file.remove(getUser(user_name, user_file));
+                    it.remove();
                 }
             }
 
@@ -167,7 +166,7 @@ public class TransactionHandler{
         String sellerInfo = getUser(sellerAccount, user_file);
 
         //Check if User Exists and Check if Seller Exists
-        
+
         if(buyerInfo != null && sellerInfo != null){
             double getBuyerCredit = Double.parseDouble(buyerInfo.substring(18,27));
             double getSellerCredit = Double.parseDouble(sellerInfo.substring(18,27));
@@ -245,7 +244,7 @@ public class TransactionHandler{
                     double total_price = tickets_sold * ticket_price;
 
 
-                    if (total_price < seller_credit && total_price < buyer_credit && seller_credit + total_price < 999999.99){
+                    if (total_price < buyer_credit && seller_credit + total_price < 999999.99){
 
                         buyer_credit -= total_price;
                         seller_credit += total_price;
@@ -287,7 +286,7 @@ public class TransactionHandler{
                         tickets_file.add(new_ticket_info);
 
                     } else {
-                        System.out.println("Error: seller or buyer do not have enough credit remaining or Seller exceeded mac credit");
+                        System.out.println("Error: buyer does not have enough credit remaining or Seller exceeded mac credit");
                     }
                 } else {
                     System.out.println("Error: Seller no longer exists in this data set");

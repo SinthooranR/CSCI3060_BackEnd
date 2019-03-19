@@ -9,7 +9,6 @@ List<String> user_file;
 List<String> tickets_file;
 
    @Test
-   // used to test the createUser function
    public void testCreate() {
        user_file = new ArrayList<String>();
        user_file.add("Seller Account1 SS 000000.00");
@@ -21,6 +20,7 @@ List<String> tickets_file;
        assertEquals(true, user_file.contains("User01122123123 SS 000000.00"));
 
    }
+
    @Test
    public void testSell(){
        user_file = new ArrayList<String>();
@@ -104,19 +104,20 @@ List<String> tickets_file;
 
 
        user_file.add("SellerJonesSS   SS 000002.00");
+       user_file.remove("BuyerJonesBS    BS 190000.00");
+       user_file.add("BuyerJonesBS    BS 000002.00");
        th.buyTickets("04 SQALabsTime               SellerJonesSS   036 110.00",
-                    "00 BuyerJonesBS    BS 190000.00",
+                    "00 BuyerJonesBS    BS 000002.00",
                     user_file,
                     tickets_file,
                     init_tickets_file);
 
        assertEquals(true, (tickets_file.contains("SQALabsTime               SellerJonesSS   040 110.00") &&
                          user_file.contains("SellerJonesSS   SS 000002.00") &&
-                         user_file.contains("BuyerJonesBS    BS 190000.00")));
+                         user_file.contains("BuyerJonesBS    BS 000002.00")));
 
+   }
 
-
-  }
    @Test
    public void testRefund(){
     user_file = new ArrayList<String>();
@@ -134,8 +135,8 @@ List<String> tickets_file;
     assertEquals(false, user_file.contains("BobJoneJAJAJAJA FS 012312.00") && user_file.contains("SellerJonesSS   SS 012312.00"));
     //Refund cause
     assertEquals(false, user_file.contains("BobJonesNOADMIN FS 012312.00") && user_file.contains("SellerJonesSS   SS 012312.00"));
-}
-  
+   }
+
    @Test
    public void testAddCredit(){
     user_file = new ArrayList<String>();
@@ -155,4 +156,35 @@ List<String> tickets_file;
 
    }
 
+   //this funciton does decision and loop coverage
+   @Test
+   public void testDelete(){
+       //errror did not delete the tickets
+       user_file = new ArrayList<>();
+       tickets_file = new ArrayList<>();
+
+       tickets_file.clear();
+       user_file.clear();
+
+       user_file.add("SellerJonesSS   SS 014502.00");
+       th.deleteUser("02 SellerJonesSS   SS 014502.00", user_file, tickets_file);
+       th.deleteUser("02 SellerBBosdaasd SS 000000.00", user_file, tickets_file);
+
+       assertEquals(false, user_file.contains("SellerJonesSS   SS 014502.00"));
+
+       user_file.add("SellerJonesSSs  SS 014502.00");
+       tickets_file.add("SQALabsTime               SellerJonesSS   040 110.00");
+       th.deleteUser("02 SellerJonesSSs  SS 014502.00", user_file, tickets_file);
+
+       assertEquals(false, user_file.contains("SellerJonesSSs  SS 014502.00"));
+
+       tickets_file.add("SQALabsTime               SellerJonesSSs  040 110.00");
+       user_file.add("SellerJonesSSs  SS 014502.00");
+       th.deleteUser("02 SellerJonesSSs  SS 014502.00", user_file, tickets_file);
+
+       assertEquals(false, (tickets_file.contains("SQALabsTime               SellerJonesSSs  040 110.00") &&  user_file.contains("SellerJonesSSs  SS 014502.00")));
+
+
+
+   }
 }
