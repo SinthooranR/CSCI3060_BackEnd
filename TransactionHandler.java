@@ -167,8 +167,7 @@ public class TransactionHandler{
         String sellerInfo = getUser(sellerAccount, user_file);
 
         //Check if User Exists and Check if Seller Exists
-        ;
-
+        
         if(buyerInfo != null && sellerInfo != null){
             double getBuyerCredit = Double.parseDouble(buyerInfo.substring(18,27));
             double getSellerCredit = Double.parseDouble(sellerInfo.substring(18,27));
@@ -205,7 +204,7 @@ public class TransactionHandler{
 
 
         } else {
-            System.out.println("Seller does not have enough Credit for Refund");
+            System.out.println("Either Buyer, Seller or Both Do not Exist");
         }
     }
 
