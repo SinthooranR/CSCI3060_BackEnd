@@ -32,4 +32,85 @@ List<String> tickets_file;
        assertEquals(1, Collections.frequency(tickets_file, "SQALabsTime               SellerJonesSS   040 110.00"));
        assertEquals(true, tickets_file.contains("SQALabsTimessss           SellerJonesSS   040 110.00"));
    }
+   @Test
+   public void testBuy(){
+       user_file = new ArrayList<>();
+       tickets_file = new ArrayList<>();
+
+       user_file.add("SellerJonesSS   SS 012312.00");
+       user_file.add("BuyerJonesBS    BS 190000.00");
+
+
+       tickets_file.add("SQALabsTime               SellerJonesSS   040 110.00");
+
+       List<String> init_tickets_file = new ArrayList<>(tickets_file);
+
+       th.buyTickets("04 SQALabsTime               SellerJonesSS   036 110.00",
+                     "00 BuyerJonesBS    BS 190000.00",
+                     user_file,
+                     tickets_file,
+                     init_tickets_file);
+
+       assertEquals(true, (tickets_file.contains("SQALabsTime               SellerJonesSS   036 110.00") &&
+                           user_file.contains("BuyerJonesBS    BS 189560.00") &&
+                           user_file.contains("SellerJonesSS   SS 012752.00")));
+       tickets_file.clear();
+       user_file.clear();
+
+       tickets_file.add("SQALabsTime               SellerJonesSS   003 110.00");
+       user_file.add("SellerJonesSS   SS 012312.00");
+       user_file.add("BuyerJonesBS    BS 190000.00");
+
+
+       th.buyTickets("04 SQALabsTimesssssss        SellerJonesSS   036 110.00",
+                     "00 BuyerJonesBS    BS 190000.00",
+                     user_file,
+                     tickets_file,
+                     init_tickets_file);
+
+       assertEquals(true, (tickets_file.contains("SQALabsTime               SellerJonesSS   003 110.00") &&
+                          user_file.contains("SellerJonesSS   SS 012312.00") &&
+                          user_file.contains("BuyerJonesBS    BS 190000.00")));
+
+       th.buyTickets("04 SQALabsTime               SellerJonesSS   004 110.00",
+                "00 BuyerJonesBS    BS 190000.00",
+                user_file,
+                tickets_file,
+                init_tickets_file);
+
+       assertEquals(true, (tickets_file.contains("SQALabsTime               SellerJonesSS   003 110.00") &&
+                     user_file.contains("SellerJonesSS   SS 012312.00") &&
+                     user_file.contains("BuyerJonesBS    BS 190000.00")));
+
+       user_file.remove("SellerJonesSS   SS 012312.00");
+       tickets_file.remove("SQALabsTime               SellerJonesSS   003 110.00");
+
+       tickets_file.add("SQALabsTime               SellerJonesSS   040 110.00");
+
+       th.buyTickets("04 SQALabsTime               SellerJonesSS   036 110.00",
+                     "00 BuyerJonesBS    BS 190000.00",
+                     user_file,
+                     tickets_file,
+                     init_tickets_file);
+
+       assertEquals(true, (tickets_file.contains("SQALabsTime               SellerJonesSS   040 110.00") &&
+                          user_file.contains("SellerJonesSS   SS 012312.00") == false &&
+                          user_file.contains("BuyerJonesBS    BS 190000.00")));
+
+
+
+       user_file.add("SellerJonesSS   SS 000002.00");
+       th.buyTickets("04 SQALabsTime               SellerJonesSS   036 110.00",
+                    "00 BuyerJonesBS    BS 190000.00",
+                    user_file,
+                    tickets_file,
+                    init_tickets_file);
+
+       assertEquals(true, (tickets_file.contains("SQALabsTime               SellerJonesSS   040 110.00") &&
+                         user_file.contains("SellerJonesSS   SS 000002.00") &&
+                         user_file.contains("BuyerJonesBS    BS 190000.00")));
+
+
+
+  }
 }
