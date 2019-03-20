@@ -56,34 +56,39 @@ public class Validator{
         }
         return false;
     }
-    public boolean checkTicket_quantity(int ticketQuantity, String buyerline){
-        String tickets = buyerline.substring(3,41);
 
-        if (ticketQuantity >= Integer.parseInt(tickets)){
-            return true;
+    public String getUser(String username, List<String> user_file){
+        for(String line: user_file){
+            String line_username = line.substring(0, Math.min(15, line.length()));
+            if(username.equals(line_username)){
+                return line;
+            }
         }
-        else if (ticketQuantity < Integer.parseInt(tickets)){
-            return false;
-        }
-        return true;
+        return null;
     }
 
-    /**
-    *Function checkUser_money checks if the user has enough credit to buy
-    *
-    * @param credit the amount of credit to check
-    *
-    * @param userLine goes through the user lines and checks if the number of credit is available
-    */
-    public boolean checkUser_credit(double credit, String userLine){
-        String credString = userLine.substring(9,20);
+    public String getTickets(String event_name, List<String> tickets_file){
+        for(String line: tickets_file){
+            String line_event_name = line.substring(0, 25);
+            if(event_name.equals(line_event_name)){
+                return line;
+            }
+        }
+        return null;
+    }
 
-        if (credit >= Double.parseDouble(credString)){
-            return true;
-        }
-        else if (credit < Double.parseDouble(credString)){
-            return false;
-        }
-        return true;
+    public String padCredit(double amount, String info){
+        String format = "%6.2f";
+
+        String credit_padded = String.format(format, amount);
+
+        String pad = "0";
+
+        credit_padded = pad.repeat(9 - credit_padded.length()) + credit_padded;
+
+        String new_info = info.substring(0, 19);
+
+        return new_info + credit_padded;
+
     }
 }

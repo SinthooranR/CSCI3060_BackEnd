@@ -48,7 +48,7 @@ public class TransactionHandler{
 
         String ticket_to_add = sellLine.substring(3, sellLine.length());
 
-        if (tran_validator.checkTicket_exists(ticket_to_add, tickets_file) == false && getUser(sellLine.substring(29, 44),  user_file) != null){
+        if (tran_validator.checkTicket_exists(ticket_to_add, tickets_file) == false && tran_validator.getUser(sellLine.substring(29, 44),  user_file) != null){
             tickets_file.add(ticket_to_add);
         } else {
             System.out.println("Error: Cannot sell tickets as these tickets is already being sold");
@@ -68,7 +68,7 @@ public class TransactionHandler{
     */
     public void addCredit(String addLine, List<String> user_file){
         String userAccount = addLine.substring(3, 18);
-        String userInfo = getUser(userAccount, user_file);
+        String userInfo = tran_validator.getUser(userAccount, user_file);
 
         if(userInfo != null){
             Double addCredit = Double.parseDouble(addLine.substring(21,30));
@@ -162,8 +162,8 @@ public class TransactionHandler{
         Double refundCredit = Double.parseDouble(refundLine.substring(35, 43));
 
 
-        String buyerInfo = getUser(buyerAccount, user_file);
-        String sellerInfo = getUser(sellerAccount, user_file);
+        String buyerInfo = tran_validator.getUser(buyerAccount, user_file);
+        String sellerInfo = tran_validator.getUser(sellerAccount, user_file);
 
         //Check if User Exists and Check if Seller Exists
 
@@ -178,21 +178,8 @@ public class TransactionHandler{
                 user_file.remove(buyerInfo);
                 user_file.remove(sellerInfo);
 
-                String format = "%6.2f";  // width == 6 and 2 digits after the dot
-
-                String b_credit_padded = String.format(format, newBuyerCredit);
-                String s_credit_padded = String.format(format, newSellerCredit);
-
-                String pad = "0";
-
-                b_credit_padded = pad.repeat(9 - b_credit_padded.length()) + b_credit_padded;
-                s_credit_padded = pad.repeat(9 - s_credit_padded.length()) + s_credit_padded;
-
-                String updatedBuyerCred = buyerInfo.substring(0,19);
-                String updatedSellerCred = sellerInfo.substring(0,19);
-
-                updatedBuyerCred += b_credit_padded;
-                updatedSellerCred += s_credit_padded;
+                String updatedBuyerCred = tran_validator.padCredit(newBuyerCredit, buyerInfo);
+                String updatedSellerCred = tran_validator.padCredit(newSellerCredit, sellerInfo);
 
                 user_file.add(updatedBuyerCred);
                 user_file.add(updatedSellerCred);
@@ -223,13 +210,13 @@ public class TransactionHandler{
         String seller_username = ticketLine.substring(29, 44);
 
         String ticket_info = ticketLine.substring(3, ticketLine.length());
-        String remaining_ticket_info = getTickets(event_name, tickets_file);
-        String init_ticket_info = getTickets(event_name, init_tickets_file);
+        String remaining_ticket_info = tran_validator.getTickets(event_name, tickets_file);
+        String init_ticket_info = tran_validator.getTickets(event_name, init_tickets_file);
 
-        String buyer_info = getUser(userLine.substring(3, 18), user_file);
+        String buyer_info = tran_validator.getUser(userLine.substring(3, 18), user_file);
         Double buyer_credit = Double.parseDouble(buyer_info.substring(19, 28));
 
-        String seller_info = getUser(seller_username, user_file);
+        String seller_info = tran_validator.getUser(seller_username, user_file);
 
         if (ticket_info != null && remaining_ticket_info != null){
 
@@ -249,21 +236,8 @@ public class TransactionHandler{
                         buyer_credit -= total_price;
                         seller_credit += total_price;
 
-                        String format = "%6.2f";  // width == 6 and 2 digits after the dot
-
-                        String b_credit_padded = String.format(format, buyer_credit);
-                        String s_credit_padded = String.format(format, seller_credit);
-
-                        String pad = "0";
-
-                        b_credit_padded = pad.repeat(9 - b_credit_padded.length()) + b_credit_padded;
-                        s_credit_padded = pad.repeat(9 - s_credit_padded.length()) + s_credit_padded;
-
-                        String new_buyer_info = buyer_info.substring(0, 19);
-                        String new_seller_info = seller_info.substring(0, 19);
-
-                        new_buyer_info += b_credit_padded;
-                        new_seller_info += s_credit_padded;
+                        String new_buyer_info = tran_validator.padCredit(buyer_credit, buyer_info); // width == 6 and 2 digits after the dot
+                        String new_seller_info = tran_validator.padCredit(seller_credit, seller_info); // width == 6 and 2 digits after the dot
 
                         user_file.remove(buyer_info);
                         user_file.remove(seller_info);
@@ -275,6 +249,8 @@ public class TransactionHandler{
 
                         String ticket_price_string = init_ticket_info.substring(46, 52);
                         String rem_tickets = Integer.toString(tickets_left);
+
+                        String pad = "0";
 
                         rem_tickets = pad.repeat(3 - rem_tickets.length()) + rem_tickets;
 
@@ -299,25 +275,7 @@ public class TransactionHandler{
         }
     }
 
-    public String getUser(String username, List<String> user_file){
-        for(String line: user_file){
-            String line_username = line.substring(0, Math.min(15, line.length()));
-            if(username.equals(line_username)){
-                return line;
-            }
-        }
-        return null;
-    }
 
-    public String getTickets(String event_name, List<String> tickets_file){
-        for(String line: tickets_file){
-            String line_event_name = line.substring(0, 25);
-            if(event_name.equals(line_event_name)){
-                return line;
-            }
-        }
-        return null;
-    }
 
 
 

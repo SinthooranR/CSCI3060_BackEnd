@@ -19,9 +19,7 @@ public class Main{
     out.fileReader(file1, file2, file3);
 
     out.processAllTrans();
-    out.fileWriter();
-
-    
+    out.fileWriter( "New_User_Accounts_File.txt", "New_Avaiable_Tickets_File.txt");
 
     }
 }
