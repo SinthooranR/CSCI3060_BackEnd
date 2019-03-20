@@ -1,11 +1,7 @@
-01 BOOBY SMITH     FS 123000.23
-02 BOOBY SMIsdf    FS 123000.23
-05 BobJonesNOADMIN SellerJonesSS  000010.00
+01 SellerJonesAAsd FS 123000.23
+02 AdminUser123456 AA 000000.00
+03 SQALabsTimesss            SellerJonesSS   036 110.00
+04 SQALabsTime               SellerJonesSS   036 110.00
+05 BobJonesNOADMIN SellerJonesSS  000100.00
 06 SellerJonesAA   AA 000100.00
-06 SellerJonesAA   AA 000100.00
-04 SQALabsTime               SellerJonesSS   036 110.00
-04 SQALabsTime               SellerJonesSS   036 110.00
-04 SQALabsTime               SellerJonesSS   036 110.00
-04 SQALabsTime               SellerJonesSS   036 110.00
-04 SQALabsTime               SellerJonesSS   036 110.00
-00 John Doe 123456 AA 330000.00
+00 BuyerJonesBS    BS 190000.00

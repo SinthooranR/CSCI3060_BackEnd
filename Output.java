@@ -41,7 +41,7 @@ public TransactionHandler transactionhandler = new TransactionHandler();
     *                             Transaction File.
     *
     */
-    public void fileReader(String userFile, String ticketsFile, String dailyTransactionFile){
+    public void fileReader(String userFile, String ticketsFile, String dailyTransactionFile) {
       try{
           //File Readers for each file respectively
           //FileReader for userFile
@@ -80,6 +80,7 @@ public TransactionHandler transactionhandler = new TransactionHandler();
           bufferedReader3.close();
       }
       catch(Exception e){
+          //System.out.println("hello");
           }
     }
 

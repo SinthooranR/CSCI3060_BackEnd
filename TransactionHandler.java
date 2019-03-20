@@ -91,7 +91,7 @@ public class TransactionHandler{
                 updatedUserCred += user_credit_padded;
 
                 user_file.add(updatedUserCred);
-                System.out.println(updatedUserCred);
+                //System.out.println(updatedUserCred);
             }
             else{
                 System.out.println("Error: User Exceeds Maximum Credit");
