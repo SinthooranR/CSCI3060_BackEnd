@@ -14,6 +14,8 @@
 import java.io.*;
 import java.util.*;
 
+import jdk.jfr.StackTrace;
+
 public class Output{
 
 String line = "";
@@ -57,30 +59,26 @@ public TransactionHandler transactionhandler = new TransactionHandler();
           FileReader fileReader3 = new FileReader(file3);
           BufferedReader bufferedReader3 = new BufferedReader(fileReader3);
 
-
           //Reads Current_User_Accounts_File
           while ((line = bufferedReader.readLine()) != null){
               user_file.add(line);
-              //System.out.println(line);
           }
           bufferedReader.close();
 
           //Reads Available_Tickets_File
           while ((line = bufferedReader2.readLine()) != null){
               tickets_file.add(line);
-              //System.out.println(line);
           }
           bufferedReader2.close();
 
           //Reads Merged Daily Transaction File
           while ((line = bufferedReader3.readLine()) != null){
               daily_trans.add(line);
-              //System.out.println(line);
           }
           bufferedReader3.close();
       }
       catch(Exception e){
-          //System.out.println("hello");
+          e.printStackTrace();
           }
     }
 
@@ -99,27 +97,10 @@ public TransactionHandler transactionhandler = new TransactionHandler();
      public void fileWriter(String user_filename, String tickets_filename){
       File file = new File(user_filename);
       File file2 = new File(tickets_filename);
-      //File file3 = new File("New_Daily_Transaction_File");
          try{
-         //FileWriter for new userFile
-
-        //  File file = new File("New_User_Accounts_File.txt");
-        //  FileWriter fileWriter = new FileWriter(file);
-        //  BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
-         //FileReader for new ticketsFile
-        //  File file2 = new File("New_Avaiable_Tickets_File.txt");
-        //  FileWriter fileWriter2 = new FileWriter(file2);
-        //  BufferedWriter bufferedWriter2 = new BufferedWriter(fileWriter2);
-
-         //FileReader for new dailyTransactionFile
-        //  File file3 = new File("New_Daily_Transaction_File");
-        //  FileWriter fileWriter3 = new FileWriter(file3);
-        //  BufferedWriter bufferedWriter3 = new BufferedWriter(fileWriter3);
-
-        //Checks if New User File Exists. If not it will generate it, and then write to it.
-             if(!file.exists()){
-                 file.createNewFile();
+             //Checks if New User File Exists. If not it will generate it, and then write to it.
+             if (!file.exists()){
+                  file.createNewFile();
              }
              FileWriter writer = new FileWriter(file);
              for(String user: user_file) {
@@ -128,8 +109,8 @@ public TransactionHandler transactionhandler = new TransactionHandler();
             }
              writer.close();
 
-             //Checks if New Tickets File Exists. If not it will generate it, and then write to it.
-              if(!file2.exists()){
+            //Checks if New Tickets File Exists. If not it will generate it, and then write to it.
+            if (!file2.exists()){
                  file2.createNewFile();
              }
              FileWriter writer2 = new FileWriter(file2);
