@@ -96,10 +96,10 @@ public TransactionHandler transactionhandler = new TransactionHandler();
      *                             to update the New Merged Daily
      *                             Transaction File.
      */
-     public void fileWriter(){
-      File file = new File("New_User_Accounts_File.txt");
-      File file2 = new File("New_Avaiable_Tickets_File.txt");
-      File file3 = new File("New_Daily_Transaction_File");
+     public void fileWriter(String user_filename, String tickets_filename){
+      File file = new File(user_filename);
+      File file2 = new File(tickets_filename);
+      //File file3 = new File("New_Daily_Transaction_File");
          try{
          //FileWriter for new userFile
 
@@ -139,18 +139,8 @@ public TransactionHandler transactionhandler = new TransactionHandler();
             }
              writer2.close();
 
-             //Checks if New Daily Transaction File Exists. If not it will generate it, and then write to it.
-              if(!file3.exists()){
-                 file3.createNewFile();
-             }
-             FileWriter writer3 = new FileWriter(file3);
-             for(String transaction: daily_trans) {
-             writer3.write(transaction);
-             writer3.write("\n");
-            }
-             writer3.close();
-             }
-             catch(Exception e){
+         }
+         catch(Exception e){
          }
      }
 
