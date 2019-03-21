@@ -205,12 +205,12 @@ public class TransactionHandler{
     * @param userLine gets the userline that would give the user information
     *                 checks username and if the user has enough credits.
     *
-    * @param user_file gets the details of the Users and stores it into a List and 
-    *                  Updates the User Information Once transaction is complete  
+    * @param user_file gets the details of the Users and stores it into a List and
+    *                  Updates the User Information Once transaction is complete
     *
     * @param tickets_file gets the updated
     *
-    * @param init_tickets_file 
+    * @param init_tickets_file
     */
     public void buyTickets(String ticketLine, String userLine, List<String> user_file, List<String> tickets_file, List<String> init_tickets_file){
         String event_name = ticketLine.substring(3, 28);

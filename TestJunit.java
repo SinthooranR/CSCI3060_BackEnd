@@ -173,7 +173,7 @@ List<String> tickets_file;
        th.deleteUser("02 SellerJonesSS   SS 014502.00", user_file, tickets_file);
        th.deleteUser("02 SellerBBosdaasd SS 000000.00", user_file, tickets_file);
 
-       assertEquals(false, user_file.contains("SellerJonesSS   SS 014502.00"));
+       assertEquals("Test Error () ",false, user_file.contains("SellerJonesSS   SS 014502.00"));
 
        user_file.add("SellerJonesSSs  SS 014502.00");
        tickets_file.add("SQALabsTime               SellerJonesSS   040 110.00");
