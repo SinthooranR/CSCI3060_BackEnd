@@ -41,7 +41,6 @@ public TransactionHandler transactionhandler = new TransactionHandler();
     * @param dailyTransactionFile This string should include
     *                             the name of the Old Merged Daily
     *                             Transaction File.
-    *
     */
     public void fileReader(String userFile, String ticketsFile, String dailyTransactionFile) {
       try{
@@ -82,17 +81,14 @@ public TransactionHandler transactionhandler = new TransactionHandler();
           }
     }
 
-    /**
+     /**
      * Function that can write the New User, Tickets, and Daily_Transaction Files
-     * @param userFile This string will grab the data
-     *                 to update the New User
-     *                 Accounts File
-     * @param ticketFile This string will grab the data
-     *                   to update the New Available
-     *                   Tickets File.
-     * @param dailyTransactionFile This string will grab the data
-     *                             to update the New Merged Daily
-     *                             Transaction File.
+     * @param user_filename This string will grab the data
+     *                      to update the New User
+     *                      Accounts File
+     * @param tickets_filename This string will grab the data
+     *                         to update the New Available
+     *                         Tickets File.
      */
      public void fileWriter(String user_filename, String tickets_filename){
       File file = new File(user_filename);
@@ -119,55 +115,53 @@ public TransactionHandler transactionhandler = new TransactionHandler();
              writer2.write("\n");
             }
              writer2.close();
-
          }
          catch(Exception e){
          }
      }
 
+    /**
+    * Function that can write the New User, Tickets, and Daily_Transaction Files
+    * @param curr_session reads through daily transaction file and runs transaction
+    *                     based off the order and the transaction id
+    *
+    * @param curr_user_logout used whenever a new transaction with a new user takes place
+    *                         and logs the old user out and new user begins transaction
+    */
     public void proccessOnceSessionTrans(List<String> curr_session, String curr_user_logout){
 
       for (String trans: curr_session){
 
         String code = trans.substring(0, Math.min(trans.length(), 2));
 
-         // TODO need to fix up all the individual command functions and fill in buy
         switch (code){
           case "01":
             transactionhandler.createUser(trans, user_file);
-            //correct for now
             break;
 
           case "02":
             transactionhandler.deleteUser(trans, user_file, tickets_file);
-            //correct for now
             break;
 
           case "03":
-          // check seller exists
             transactionhandler.sellTickets(trans, tickets_file, user_file);
-
             break;
 
           case "04":
-
               transactionhandler.buyTickets(trans, curr_user_logout, user_file, tickets_file, init_tickets_file);
               break;
 
           case "05":
-            // TODO get buyer and seller info to one string
-            transactionhandler.refundUser(trans, user_file);
-            break;
+              transactionhandler.refundUser(trans, user_file);
+              break;
 
           case "06":
-
-            // TODO get user information preferably making a function in Input passing the user array List
-            transactionhandler.addCredit(trans, user_file);
-            break;
-          default:
-            break;
+              transactionhandler.addCredit(trans, user_file);
+              break;
+            default:
+              break;
+            }
         }
-      }
     }
 
     public void processAllTrans(){
