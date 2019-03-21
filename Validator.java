@@ -23,10 +23,10 @@ public class Validator{
     * Function checkUser_exist check if the user exists. If the user does already exist
     * it will return true, if user doesnt exist it will return false
     *
-    * @param userLine inputs the user from the daily transaction and grabs the specific 
-    *                 specific substring for just the username   
+    * @param userLine inputs the user from the daily transaction and grabs the specific
+    *                 specific substring for just the username
     *
-    * @param user_file uses the list and checks if the user in the daily transaction 
+    * @param user_file uses the list and checks if the user in the daily transaction
     *                  file exists it will return true
     */
     public boolean checkUser_exist(String userLine, List<String> user_file){
@@ -44,10 +44,10 @@ public class Validator{
     * Function checkTicket_exists check if the user exists. If the ticket does already exist
     * it will return true, if tivket doesnt exist it will return false
     *
-    * @param ticketLine inputs the ticket from the daily transaction and grabs the specific 
-    *                   specific substring for just the eventname 
+    * @param ticketLine inputs the ticket from the daily transaction and grabs the specific
+    *                   specific substring for just the eventname
     *
-    * @param tickets_file uses the list and checks if the ticket in the daily transaction 
+    * @param tickets_file uses the list and checks if the ticket in the daily transaction
     *                     file exists it will return true
     */
     public boolean checkTicket_exists(String ticketLine, List<String> tickets_file){
@@ -66,8 +66,8 @@ public class Validator{
     *
     * @param username holds a line from the transaction file with the username
     *
-    * @param user_file used to see if the username in the transaction is the same as the 
-    *                  username in the users file 
+    * @param user_file used to see if the username in the transaction is the same as the
+    *                  username in the users file
     */
     public String getUser(String username, List<String> user_file){
         for(String line: user_file){
@@ -84,8 +84,8 @@ public class Validator{
     *
     * @param event_name holds a line from the transaction file with the eventname
     *
-    * @param user_file used to see if the eventname in the transaction is the same as the 
-    *                  eventname in the tickets file 
+    * @param tickets_file used to see if the eventname in the transaction is the same as the 
+    *                  eventname in the tickets file
     */
     public String getTickets(String event_name, List<String> tickets_file){
         for(String line: tickets_file){

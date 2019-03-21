@@ -180,12 +180,12 @@ public class TransactionHandler{
                 user_file.add(updatedSellerCred);
 
             } else {
-                System.out.println("Seller does not have enough Credit for Refund");
+                System.out.println("Error: Seller does not have enough Credit for Refund");
             }
 
 
         } else {
-            System.out.println("Either Buyer, Seller or Both Do not Exist");
+            System.out.println("Error: Either Buyer, Seller or Both Do not Exist");
         }
     }
 

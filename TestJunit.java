@@ -347,6 +347,71 @@ List<String> tickets_file;
        }
    }
 
+   @Test
+     public void testMain(){
+         // making mock version of main
+         
+         Output out = new Output();
+         out.fileReader("Test_files/TestProc_user","Test_files/TestProc_tickets","Test_files/TestProc_daily");
+         out.processAllTrans();
+         out.fileWriter("Test_files/new_user_test", "Test_files/new_tickets_test");
+
+         String[] expected_users =
+         {"Non Admin User  FS 000000.00",
+         "John Doe 123456 AA 330000.00",
+         "Seller Account1 SS 000000.00",
+         "RecieverAccount FS 000000.00",
+         "NonAdminUser123 FS 000000.00",
+         "BobJonesADMIN   AA 190000.00",
+         "BuyerJonesSS    SS 190000.00",
+         "SellerJonesAAsd FS 123000.23",
+         "BuyerJonesBS    BS 189560.00",
+         "BobJonesNOADMIN FS 012412.00",
+         "SellerJonesSS   SS 012652.00",
+         "SellerJonesAA   AA 100100.00"};
 
 
+
+         String[] expected_tickets =
+         {"SQAFunTimes               SellerJonesSS   100 010.00",
+         "SQALabsTimes              SellerJonesSS   000 110.00",
+         "SQALabsTimesss            SellerJonesSS   036 110.00",
+         "SQALabsTime               SellerJonesSS   036 110.00"};
+         List<String> expected_user_list = new ArrayList<String>(Arrays.asList(expected_users));
+         List<String> expected_tickets_list = new ArrayList<String>(Arrays.asList(expected_tickets));
+
+         user_file = new ArrayList<String>();
+         tickets_file = new ArrayList<String>();
+          try{
+             File file = new File("Test_files/new_user_test");
+             FileReader fileReader = new FileReader(file);
+             BufferedReader bufferedReader = new BufferedReader(fileReader);
+             //FileReader for ticketsFile
+             File file2 = new File("Test_files/new_tickets_test");
+             FileReader fileReader2 = new FileReader(file2);
+             BufferedReader bufferedReader2 = new BufferedReader(fileReader2);
+             String line;
+             while ((line = bufferedReader.readLine()) != null){
+                 user_file.add(line);
+                 //System.out.println(line);
+             }
+             bufferedReader.close();
+
+             //Reads Available_Tickets_File
+             while ((line = bufferedReader2.readLine()) != null){
+                 tickets_file.add(line);
+                 //System.out.println(line);
+             }
+             bufferedReader2.close();
+
+             assertEquals("Test Error (fileWriter) expected output was not correct for users", true, user_file.equals(expected_user_list));
+             assertEquals("Test Error (fileWriter) expected output was not correct for tickets", true, tickets_file.equals(expected_tickets_list));
+             //assertEquals("Test Error (fileWriter) ");
+             file.delete();
+             file2.delete();
+         }catch(Exception e){
+             fail();
+             System.out.println("Test Error I/O Exception");
+         }
+     }
 }

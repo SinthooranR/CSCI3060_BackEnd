@@ -77,7 +77,7 @@ public TransactionHandler transactionhandler = new TransactionHandler();
           bufferedReader3.close();
       }
       catch(Exception e){
-          e.printStackTrace();
+          System.out.println("Error: File i/o Exception");
           }
     }
 
@@ -117,6 +117,7 @@ public TransactionHandler transactionhandler = new TransactionHandler();
              writer2.close();
          }
          catch(Exception e){
+             System.out.println("Error: File i/o Exception");
          }
      }
 
