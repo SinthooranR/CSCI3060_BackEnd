@@ -12,14 +12,16 @@
 public class Main{
     //A Test to check if the File I/O is running properly
     public static void main(String[] args){
-    String file1 = "Current_User_Accounts_File.txt";
-    String file2 = "Available_Tickets_File.txt";
-    String file3 = "Daily_Transaction_File.txt";
+    String oldUser = "Current_User_Accounts_File.txt";
+    String oldTickets = "Available_Tickets_File.txt";
+    String dailyTrans = "Daily_Transaction_File.txt";
+    String newUser = "New_User_Accounts_File.txt";
+    String newTickets = "New_Available_Tickets_File.txt";
     Output out = new Output();
-    out.fileReader(file1, file2, file3);
 
+    //Calls File Reader Function
+    out.fileReader(oldUser, oldTickets, dailyTrans);
     out.processAllTrans();
-    out.fileWriter( "New_User_Accounts_File.txt", "New_Avaiable_Tickets_File.txt");
-
+    out.fileWriter(newUser, newTickets);
     }
 }

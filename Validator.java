@@ -20,14 +20,15 @@ public class Validator{
     }
 
     /**
-    * Function checkUser_exist check if the user exists. if the user does already exist
+    * Function checkUser_exist check if the user exists. If the user does already exist
     * it will return true, if user doesnt exist it will return false
     *
-    * @param username the name we are checking if it exist
+    * @param userLine inputs the user from the daily transaction and grabs the specific 
+    *                 specific substring for just the username   
     *
-    * @param userLine takes in the useraccount lines and check with it for usernames
+    * @param user_file uses the list and checks if the user in the daily transaction 
+    *                  file exists it will return true
     */
-
     public boolean checkUser_exist(String userLine, List<String> user_file){
         String username = userLine.substring(0,15);
         for(String line: user_file){
@@ -40,11 +41,14 @@ public class Validator{
     }
 
     /**
-    *Function checkTicket_quantity checks if the number of tickets are available
+    * Function checkTicket_exists check if the user exists. If the ticket does already exist
+    * it will return true, if tivket doesnt exist it will return false
     *
-    * @param ticketQuantity the amount of tickets the user wants to buy
+    * @param ticketLine inputs the ticket from the daily transaction and grabs the specific 
+    *                   specific substring for just the eventname 
     *
-    * @param buyerline goes through the ticket lines and checks if the number of tickets is available
+    * @param tickets_file uses the list and checks if the ticket in the daily transaction 
+    *                     file exists it will return true
     */
     public boolean checkTicket_exists(String ticketLine, List<String> tickets_file){
 
@@ -57,6 +61,14 @@ public class Validator{
         return false;
     }
 
+    /**
+    * Function getUser gets the user from the list and places all the details
+    *
+    * @param username holds a line from the transaction file with the username
+    *
+    * @param user_file used to see if the username in the transaction is the same as the 
+    *                  username in the users file 
+    */
     public String getUser(String username, List<String> user_file){
         for(String line: user_file){
             String line_username = line.substring(0, Math.min(15, line.length()));
@@ -67,6 +79,14 @@ public class Validator{
         return null;
     }
 
+    /**
+    * Function getTickets gets the tickets from the list and places all the details
+    *
+    * @param event_name holds a line from the transaction file with the eventname
+    *
+    * @param user_file used to see if the eventname in the transaction is the same as the 
+    *                  eventname in the tickets file 
+    */
     public String getTickets(String event_name, List<String> tickets_file){
         for(String line: tickets_file){
             String line_event_name = line.substring(0, 25);
@@ -77,6 +97,13 @@ public class Validator{
         return null;
     }
 
+    /**
+    * Function padCredit grabs the new credit and information and formats it properly
+    *
+    * @param amount gets updated version of credit after transactions take place
+    *
+    * @param info gets updated information for user and ticket after transaction take place
+    */
     public String padCredit(double amount, String info){
         String format = "%6.2f";
 
@@ -89,6 +116,5 @@ public class Validator{
         String new_info = info.substring(0, 19);
 
         return new_info + credit_padded;
-
     }
 }

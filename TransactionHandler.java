@@ -25,7 +25,8 @@ public class TransactionHandler{
     * @param addLine is a line from the daily transaction file
     *                it has all the information to create a new user.
     *
-    * @param user_file is a
+    * @param user_file grabs the data from the users file and stores it into a list
+    *                  and also is used for checking if users being created already exist
     */
     public void createUser(String addLine, List<String> user_file){
 
@@ -43,6 +44,12 @@ public class TransactionHandler{
     *
     * @param sellLine is a line from the daily transaction file
     *                it has all the information to create events.
+    *
+    * @param tickets_file grabs the data from the tickets file and updates it
+    *                     based off the daily transaction file.
+    *
+    * @param user_file grabs the data from the users file and updates it
+    *                  based off if the seller is selling duplicates.
     */
     public void sellTickets(String sellLine, List<String> tickets_file, List<String> user_file) {
 
@@ -69,41 +76,30 @@ public class TransactionHandler{
     public void addCredit(String addLine, List<String> user_file){
         String userAccount = addLine.substring(3, 18);
         String userInfo = tran_validator.getUser(userAccount, user_file);
-
+        //Check if User Exists
         if(userInfo != null){
             Double addCredit = Double.parseDouble(addLine.substring(21,30));
             Double userCredit = Double.parseDouble(userInfo.substring(18,27));
-
+            //Check if User does not Exceed Max Credit
             if(userCredit + addCredit < 999999.99){
                 Double newUserCredit = userCredit + addCredit;
-
                 user_file.remove(userInfo);
-
+                //Pads the Credit
                 String format = "%6.2f";  // width == 6 and 2 digits after the dot
-
                 String user_credit_padded = String.format(format, newUserCredit);
-
                 String pad = "0";
-
+                //Pads it in the form for AddCredit
                 user_credit_padded = pad.repeat(9 - user_credit_padded.length()) + user_credit_padded;
-
                 String updatedUserCred = userInfo.substring(0,19);
                 updatedUserCred += user_credit_padded;
-
                 user_file.add(updatedUserCred);
-                //System.out.println(updatedUserCred);
             }
             else{
                 System.out.println("Error: User Exceeds Maximum Credit");
             }
-
         } else {
             System.out.println("Error: Can't add credit");
         }
-
-        //Check if User Exists
-
-        //Check if User does not Exceed Max Credit
     }
 
     /**
@@ -111,10 +107,13 @@ public class TransactionHandler{
     * from the System.
     *
     * @param deleteLine this string grabs the line from the daily transaction file
-    *                then gets the substrings for the respective attributes
+    *                   then gets the substrings for the respective attributes
     *
-    * @param currentline this string takes in thr line from the current user file
-    *                    and gets substrings for respective attributes
+    * @param user_file this string takes in the line from the current user file
+    *                  and stores them into a list and 
+    *
+    * @param tickets_file this string takes in thr line from the current tickets file
+    *                     and gets substrings for respective attributes
     */
     public void deleteUser(String deleteLine, List<String> user_file, List<String> tickets_file){
         //String used to Update the deleted User in the Current Users File
@@ -122,7 +121,6 @@ public class TransactionHandler{
         String user_name = deleteLine.substring(3,18);
         if(tran_validator.checkUser_exist(user_to_delete, user_file) == true){
             user_file.remove(user_to_delete);
-
 
             Iterator<String> it = tickets_file.iterator();
 
@@ -149,24 +147,21 @@ public class TransactionHandler{
     * @param refundLine takes in the line needed to be refunded from the transaction file
     *                   and gives the buyer username and seller name and amount
     *
-    * @param userFile takes in the buyer and seller information in the form of a list and
+    * @param user_file takes in the buyer and seller information in the form of a list and
     *                 gets the amount of credits they have and refunds the buyer
     *                 whole taking money back from the seller
     */
     public void refundUser(String refundLine, List<String> user_file){
-        //#TODO
         //Grab substrings for Buyer and Seller
         //System.out.println("Hi beter");
         String buyerAccount = refundLine.substring(3,18);
         String sellerAccount = refundLine.substring(19, 34);
         Double refundCredit = Double.parseDouble(refundLine.substring(35, 43));
 
-
         String buyerInfo = tran_validator.getUser(buyerAccount, user_file);
         String sellerInfo = tran_validator.getUser(sellerAccount, user_file);
 
         //Check if User Exists and Check if Seller Exists
-
         if(buyerInfo != null && sellerInfo != null){
             double getBuyerCredit = Double.parseDouble(buyerInfo.substring(18,27));
             double getSellerCredit = Double.parseDouble(sellerInfo.substring(18,27));
@@ -208,9 +203,11 @@ public class TransactionHandler{
     * @param user_file gets the details of the Users and stores it into a List and 
     *                  Updates the User Information Once transaction is complete  
     *
-    * @param tickets_file gets the updated
+    * @param tickets_file gets the updated tickets file with the reduced amount of tickets
+    *                     after the transaction is successful
     *
-    * @param init_tickets_file 
+    * @param init_tickets_file gets the initial tickets file before any transaction takes
+    *                          place before using daily transaction file
     */
     public void buyTickets(String ticketLine, String userLine, List<String> user_file, List<String> tickets_file, List<String> init_tickets_file){
         String event_name = ticketLine.substring(3, 28);
@@ -281,9 +278,4 @@ public class TransactionHandler{
             System.out.println("Error: Ticket information was not found");
         }
     }
-
-
-
-
-
 }

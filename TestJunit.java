@@ -230,35 +230,7 @@ List<String> tickets_file;
    public void testProcTrans_ProcCurrentTrans(){
        Output out = new Output();
 
-       //out.fileReader("Test_files/TestProc_user","Test_files/TestProc_tickets","Test_files/TestProc_daily");
-       out.user_file.addAll(Arrays.asList(
-       "Non Admin User  FS 000000.00",
-       "John Doe 123456 AA 330000.00",
-       "Seller Account1 SS 000000.00",
-       "RecieverAccount FS 000000.00",
-       "AdminUser123456 AA 000000.00",
-       "NonAdminUser123 FS 000000.00",
-       "BobJonesADMIN   AA 190000.00",
-       "BobJonesNOADMIN FS 012312.00",
-       "SellerJonesAA   AA 100000.00",
-       "SellerJonesSS   SS 012312.00",
-       "BuyerJonesBS    BS 190000.00",
-       "BuyerJonesSS    SS 190000.00"));
-
-       out.tickets_file.addAll(Arrays.asList(
-       "SQAFunTimes               SellerJonesSS   100 010.00",
-       "SQALabsTime               SellerJonesSS   040 110.00",
-       "SQALabsTimes              SellerJonesSS   000 110.00"));
-
-       out.daily_trans.addAll(Arrays.asList(
-       "01 SellerJonesAAsd FS 123000.23",
-       "02 AdminUser123456 AA 000000.00",
-       "03 SQALabsTimesss            SellerJonesSS   036 110.00",
-       "04 SQALabsTime               SellerJonesSS   036 110.00",
-       "05 BobJonesNOADMIN SellerJonesSS  000100.00",
-       "06 SellerJonesAA   AA 000100.00",
-       "00 BuyerJonesBS    BS 190000.00"));
-
+       out.fileReader("Test_files/TestProc_user","Test_files/TestProc_tickets","Test_files/TestProc_daily");
        out.processAllTrans();
 
        String[] expected_users =
@@ -291,23 +263,31 @@ List<String> tickets_file;
    @Test
    public void testFileWriter(){
        Output out = new Output();
-
-        out.user_file.add("Non Admin User  FS 000000.00");
-        out.user_file.add("John Doe 123456 AA 330000.00");
-
-        out.tickets_file.add("SQAFunTimes               SellerJonesSS   100 010.00");
-        out.tickets_file.add("SQALabsTimes              SellerJonesSS   000 110.00");
-
-        out.fileWriter("Test_files/new_user_test", "Test_files/new_tickets_test");
-
+       out.fileReader("Test_files/TestProc_user","Test_files/TestProc_tickets","Test_files/TestProc_daily");
+       out.processAllTrans();
+       out.fileWriter("Test_files/new_user_test", "Test_files/new_tickets_test");
 
        String[] expected_users =
        {"Non Admin User  FS 000000.00",
-       "John Doe 123456 AA 330000.00"};
+       "John Doe 123456 AA 330000.00",
+       "Seller Account1 SS 000000.00",
+       "RecieverAccount FS 000000.00",
+       "NonAdminUser123 FS 000000.00",
+       "BobJonesADMIN   AA 190000.00",
+       "BuyerJonesSS    SS 190000.00",
+       "SellerJonesAAsd FS 123000.23",
+       "BuyerJonesBS    BS 189560.00",
+       "BobJonesNOADMIN FS 012412.00",
+       "SellerJonesSS   SS 012652.00",
+       "SellerJonesAA   AA 100100.00"};
+
+
 
        String[] expected_tickets =
        {"SQAFunTimes               SellerJonesSS   100 010.00",
-       "SQALabsTimes              SellerJonesSS   000 110.00"};
+       "SQALabsTimes              SellerJonesSS   000 110.00",
+       "SQALabsTimesss            SellerJonesSS   036 110.00",
+       "SQALabsTime               SellerJonesSS   036 110.00"};
 
        List<String> expected_user_list = new ArrayList<String>(Arrays.asList(expected_users));
        List<String> expected_tickets_list = new ArrayList<String>(Arrays.asList(expected_tickets));
@@ -347,6 +327,8 @@ List<String> tickets_file;
        }
    }
 
+   @Test
+   public void testMain(){
 
-
+   }
 }
